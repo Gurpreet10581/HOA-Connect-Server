@@ -7,7 +7,7 @@ const validateSession= require('../middleware/validateSession');
 
 router.post('/newProfile', validateSession,(req, res) => {
     Profile.create({
-        userId: req.user.id,
+        ownerId: req.user.id,
         address: req.body.profile.address,
         about: req.body.profile.about
 
@@ -19,12 +19,12 @@ router.post('/newProfile', validateSession,(req, res) => {
 //EditProfile
 router.put('/:id', validateSession, (req,res) => {
     if(!req.errors && (req.user.admin)){
-        Profile.update({where: {id: req.params.id}})
+        Profile.update(req.body.profile,{where: {id: req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Profile.update({where: {userId: req.user.id, id:req.params.id}})
+        Profile.update(req.body.profile,{where: {ownerId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
@@ -46,7 +46,7 @@ router.delete('/:id', validateSession, (req,res) => {
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Profile.destroy({where: {userId: req.user.id, id:req.params.id}})
+        Profile.destroy({where: {ownerId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
@@ -55,7 +55,8 @@ router.delete('/:id', validateSession, (req,res) => {
     }
 })
 
-//GetAllProfiles
+/*
+// GetAllProfiles
 
 router.get('/', (req,res) => {
     Profile.findAll()
@@ -78,4 +79,5 @@ router.get('/mine',validateSession,(req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+*/
 module.exports = router;

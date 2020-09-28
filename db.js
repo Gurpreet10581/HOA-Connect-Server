@@ -12,18 +12,18 @@ sequelize.authenticate()
 
 module.exports = sequelize;
 
-// let user= sequelize.import('./models/user');
-// let profile= sequelize.import('./models/profile');
-// let post= sequelize.import('./models/post');
-// let response= sequelize.import('./models/response');
+let user= sequelize.import('./models/user');
+let profile= sequelize.import('./models/profile');
+let post= sequelize.import('./models/post');
+let response= sequelize.import('./models/response');
 
 
-// user.hasOne(profile);
-// profile.belongsTo(user);
-// user.hasMany(post);
-// post.belongsTo(user);
-// user.hasMany(response);
-// response.belongsTo(user);
-// post.hasMany(response);
-// response.belongsTo(post);
+user.hasOne(profile);
+profile.belongsTo(user);
+user.hasMany(post);
+post.belongsTo(user);
+user.hasMany(response);
+response.belongsTo(user);
+post.hasMany(response);
+response.belongsTo(post);
 
