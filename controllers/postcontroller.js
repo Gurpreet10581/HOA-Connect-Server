@@ -2,27 +2,27 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../db').import('../models/post');
 const validateSession= require('../middleware/validateSession');
-// const Profile = require('../db').import('../models/profile');
+const Profile = require('../db').import('../models/profile');
 
 //PostCreate
 
-router.post('/newPost', validateSession,(req, res) => {
-    // Profile.findOne({where:{id: req.params.id}})
-    // .then (profile => {
-    //     Response.create({
-    //         userId: req.user.id,
-    //         title: req.body.post.title,
-    //         description:req.body.post.description,
-    //         profileId: profile.id
-    //     })
-    // })
-    
-    Post.create({
-        userId: req.user.id,
-        title: req.body.post.title,
-        description: req.body.post.description
-
+router.post('/newPost/:id', validateSession,(req, res) => {
+    Profile.findOne({where:{id: req.params.id}})
+    .then (profile => {
+        Post.create({
+            userId: req.user.id,
+            title: req.body.post.title,
+            description:req.body.post.description,
+            profileId: profile.id
+        })
     })
+    
+    // Post.create({
+    //     userId: req.user.id,
+    //     title: req.body.post.title,
+    //     description: req.body.post.description
+
+    // })
     .then((post) => res.status(200).json({message: "New Post has been create",post}))
     .catch(err => res.status(500).json({error: err}))
 });
@@ -77,16 +77,16 @@ router.get('/', (req,res) => {
 
 //GetPostByID
 router.get('/:id', validateSession,(req,res) => {
-    Post.findOne({where: {id: req.params.id}, include: "user"})
+    Post.findOne({where: {id: req.params.id}, include: "responses"})
     .then(post => res.status(200).json(post))
     .catch(err => status(500).json(err));
 })
 
-//GetMyPost
-router.get('/mine',validateSession,(req, res) => {
-    Post.findOne({where: {usrId: req.user.id}})
-    .then(post => res.status(200).json(post))
-    .catch(err => res.status(500).json(err));
-});
+// //GetMyPost
+// router.get('/mine',validateSession,(req, res) => {
+//     Post.findOne({where: {usrId: req.user.id}})
+//     .then(post => res.status(200).json(post))
+//     .catch(err => res.status(500).json(err));
+// });
 
 module.exports = router;

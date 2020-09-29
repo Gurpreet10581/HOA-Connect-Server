@@ -81,11 +81,11 @@ router.get('/:id', validateSession,(req,res) => {
     .catch(err => status(500).json(err));
 })
 
-//GetMyResponse
-router.get('/mine',validateSession,(req, res) => {
-    Response.findOne({where: {usrId: req.user.id}})
-    .then(response => res.status(200).json(response))
-    .catch(err => res.status(500).json(err));
-});
+// //GetMyResponse
+// router.get('/mine',validateSession,(req, res) => {
+//     Response.findOne({where: {usrId: req.user.id}})
+//     .then(response => res.status(200).json(response))
+//     .catch(err => res.status(500).json(err));
+// });
 
 module.exports = router;

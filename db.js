@@ -25,8 +25,8 @@ user.hasMany(response);
 response.belongsTo(user);
 post.hasMany(response);
 response.belongsTo(post);
-// profile.hasMany(post);
-// post.belongsTo(profile);
+profile.hasMany(post);
+post.belongsTo(profile);
 
 
 module.exports = sequelize;
