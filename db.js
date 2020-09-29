@@ -10,7 +10,6 @@ sequelize.authenticate()
 
 
 
-module.exports = sequelize;
 
 let user= sequelize.import('./models/user');
 let profile= sequelize.import('./models/profile');
@@ -26,4 +25,8 @@ user.hasMany(response);
 response.belongsTo(user);
 post.hasMany(response);
 response.belongsTo(post);
+// profile.hasMany(post);
+// post.belongsTo(profile);
 
+
+module.exports = sequelize;

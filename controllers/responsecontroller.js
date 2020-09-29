@@ -2,15 +2,26 @@ const express = require('express');
 const router = express.Router();
 const Response = require('../db').import('../models/response');
 const validateSession= require('../middleware/validateSession');
+const Post = require('../db').import('../models/post');
+
+
 
 //ResponseCreate
 
-router.post('/newResponse', validateSession,(req, res) => {
-    Response.create({
-        ownerId: req.user.id,
-        description: req.body.response.description
-
+router.post('/newResponse/:id', validateSession,(req, res) => {
+    Post.findOne({where:{id: req.params.id}})
+    .then (post => {
+        Response.create({
+            userId: req.user.id,
+            description:req.body.response.description,
+            postId: post.id
+        })
     })
+    // Response.create({
+    //     userId: req.user.id,
+    //     description: req.body.response.description
+
+    // })
     .then((response) => res.status(200).json({message: "New Response has been create",response}))
     .catch(err => res.status(500).json({error: err}))
 });
@@ -23,7 +34,7 @@ router.put('/:id', validateSession, (req,res) => {
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Response.update(req.body.response,{where: {ownerId: req.user.id, id:req.params.id}})
+        Response.update(req.body.response,{where: {userId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
@@ -45,7 +56,7 @@ router.delete('/:id', validateSession, (req,res) => {
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Response.destroy({where: {ownerId: req.user.id, id:req.params.id}})
+        Response.destroy({where: {userId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }

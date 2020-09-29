@@ -8,10 +8,10 @@ module.exports = function(sequelize, DataTypes){
         about:{
             type: DataTypes.STRING,
             allowNull: true
-        },
-        ownerId: {
-            type: DataTypes.INTEGER
         }
+        // ownerId: {
+        //     type: DataTypes.INTEGER
+        // }
 
     })
 }

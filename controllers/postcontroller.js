@@ -2,12 +2,23 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../db').import('../models/post');
 const validateSession= require('../middleware/validateSession');
+// const Profile = require('../db').import('../models/profile');
 
 //PostCreate
 
 router.post('/newPost', validateSession,(req, res) => {
+    // Profile.findOne({where:{id: req.params.id}})
+    // .then (profile => {
+    //     Response.create({
+    //         userId: req.user.id,
+    //         title: req.body.post.title,
+    //         description:req.body.post.description,
+    //         profileId: profile.id
+    //     })
+    // })
+    
     Post.create({
-        ownerId: req.user.id,
+        userId: req.user.id,
         title: req.body.post.title,
         description: req.body.post.description
 
@@ -24,7 +35,7 @@ router.put('/:id', validateSession, (req,res) => {
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Post.update(req.body.post,{where: {ownerId: req.user.id, id:req.params.id}})
+        Post.update(req.body.post,{where: {userId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
@@ -46,7 +57,7 @@ router.delete('/:id', validateSession, (req,res) => {
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Post.destroy({where: {ownerId: req.user.id, id:req.params.id}})
+        Post.destroy({where: {userId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
@@ -66,7 +77,7 @@ router.get('/', (req,res) => {
 
 //GetPostByID
 router.get('/:id', validateSession,(req,res) => {
-    Post.findOne({where: {id: req.params.id}})
+    Post.findOne({where: {id: req.params.id}, include: "user"})
     .then(post => res.status(200).json(post))
     .catch(err => status(500).json(err));
 })

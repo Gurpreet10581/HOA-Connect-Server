@@ -98,10 +98,11 @@ router.get('/userName', validateSession,(req, res) => {
 })
 
 //GetByID
+// router.get('/:id', validateSession,(req, res)
 router.get('/:id', validateSession,(req, res) => {
-    User.findOne({where: {id: req.params.id}})
+    User.findOne({where: {id: req.params.id}, include:["profile", "posts", "responses"]})
     .then(user => res.status(200).json(user))
-    .catch(err => status(500).json(err));
+    .catch(err => res.status(500).json(err));
      
 
 })

@@ -5,9 +5,9 @@ module.exports = function(sequelize, DataTypes){
             type: DataTypes.STRING,
             allowNull: true
         },
-        ownerId: {
-            type: DataTypes.INTEGER
-        },
+        // ownerId: {
+        //     type: DataTypes.INTEGER
+        // },
         description: DataTypes.STRING,
             likes:{
 
