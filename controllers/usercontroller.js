@@ -72,7 +72,7 @@ router.post('/adminsignup', (req,res) => {
         email: req.body.user.email,
         userName: req.body.user.userName,
         password: bcrypt.hashSync(req.body.user.password,10),
-        admin: req.body.user.admin
+        admin: req.body.user.admin || "User"
     })
     .then(
         function adminSuccess(user){
@@ -112,6 +112,36 @@ router.get('/',validateSession,(req, res) => {
     .then(user => res.status(200).json(user))
     .catch(err => res.status(500).json(err));
 })
+
+//EditUser
+
+router.put('/updateMemeber/:id', validateSession,(req,res) =>{
+    let data ={
+        firstName: req.body.user.firstName,
+        lastName: req.body.user.lastName,
+        email: req.body.user.email,
+        userName: req.body.user.userName
+    }
+    User.update(data,{
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(user => res.status(200).json("Successfully Updated", user))
+    .catch(err => res.status(500).json(err));
+
+})
+
+//DeleteUser
+router.delete('/deleteUser/:id',validateSession,(req, res) => {
+    let id = req.params.id;
+    User.destroy({
+        where:{id: id}
+    })
+    .then(user => res.status(200).json("Successfully deleted", user))
+    .catch(err => res.status(500).json(err));
+})
+
 
 
 

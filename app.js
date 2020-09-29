@@ -1,6 +1,6 @@
 require('dotenv').config();
-let express =  require ('express');
-let app = express();
+const express =  require ('express');
+const app = express();
 const sequelize = require('./db');
 
 let user= require('./controllers/usercontroller');
@@ -23,7 +23,7 @@ app.use('/response', response);
 
 
 app.use('/test', function(req, res){
-    res.send('This is a message from the test endpoint on the server!')
+    res.send('Test Endpoint')
 })
 app.listen(4000, function(){
     console.log('App is listening on the port 4000')
