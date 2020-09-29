@@ -12,7 +12,7 @@ let response= require('./controllers/responsecontroller');
 sequelize.sync();
 
 app.use(require('./middleware/headers'));
-app.use(require('./middleware/validateSession'));
+// app.use(require('./middleware/validateSession'));
 
 
 app.use(express.json());

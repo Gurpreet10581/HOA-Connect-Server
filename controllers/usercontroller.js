@@ -67,16 +67,16 @@ router.post('/signin', (req, res) =>{
 
 router.post('/adminsignup', (req,res) => {
     User.create({
-        firstName:req.body.user.userName,
+        firstName:req.body.user.firstName,
         lastName: req.body.user.lastName,
         email: req.body.user.email,
         userName: req.body.user.userName,
         password: bcrypt.hashSync(req.body.user.password,10),
-        admin: req.body.user.admin || "User"
+        admin: req.body.user.admin 
     })
     .then(
         function adminSuccess(user){
-            console.log(`user: ${user.admin}`)
+            // console.log(`user: ${user.admin}`)
             let token= jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
             res.status(200).json({
                 user: user,
@@ -115,31 +115,43 @@ router.get('/',validateSession,(req, res) => {
 
 //EditUser
 
-router.put('/updateMemeber/:id', validateSession,(req,res) =>{
-    let data ={
-        firstName: req.body.user.firstName,
-        lastName: req.body.user.lastName,
-        email: req.body.user.email,
-        userName: req.body.user.userName
+router.put('/editUser/:id', validateSession,(req,res) =>{
+    if(!req.errors && (req.user.admin)){
+        User.update(req.body.user,{where: {id: req.params.id}})
+        .then(data =>res.status(200).json(data))
+        .catch(err => res.status(500).json(err));
     }
-    User.update(data,{
-        where: {
-            id: req.params.id
-        }
-    })
-    .then(user => res.status(200).json("Successfully Updated", user))
-    .catch(err => res.status(500).json(err));
+    else if (!req.errors){
+        User.update({where: {ownerId: req.user.id, id:req.params.id}})
+        .then(data =>res.status(200).json(data))
+        .catch(err => res.status(500).json(err));
+    }
+    else if (!req.errors){
+        User.update(req.body.user)
+        .then(data =>res.status(200).json(data))
+        .catch(err => res.status(500).json(err));
+    }
+    else{
+        res.status(500).json(req.errors);
+    }
 
 })
 
 //DeleteUser
 router.delete('/deleteUser/:id',validateSession,(req, res) => {
-    let id = req.params.id;
-    User.destroy({
-        where:{id: id}
-    })
-    .then(user => res.status(200).json("Successfully deleted", user))
-    .catch(err => res.status(500).json(err));
+    if(!req.errors && (req.user.admin)){
+        User.destroy({where: {id: req.params.id}})
+        .then(data =>res.status(200).json(data))
+        .catch(err => res.status(500).json(err));
+    }
+    else if (!req.errors){
+        User.destroy({where: {ownerId: req.user.id, id:req.params.id}})
+        .then(data =>res.status(200).json(data))
+        .catch(err => res.status(500).json(err));
+    }
+    else{
+        res.status(500).json(req.errors);
+    }
 })
 
 
