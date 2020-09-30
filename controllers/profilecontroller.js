@@ -56,6 +56,13 @@ router.delete('/:id', validateSession, (req,res) => {
 })
 
 
+router.get('/all', (req,res) => {
+    Profile.findAll()
+    .then(profile => res.status(200).json(profile))
+    .catch(err => res.status(500).json({error: err}))
+    
+});
+
 router.get('/:id', validateSession,(req,res) => {
     Profile.findOne({where: {id: req.params.id}, include: "posts"})
     .then(profile => res.status(200).json(profile))

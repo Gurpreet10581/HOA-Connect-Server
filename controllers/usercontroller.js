@@ -89,14 +89,14 @@ router.post('/signin', (req, res) =>{
 //     .catch((err) => res.status(500).json({error: err}));
 // })
 
-//GetUserName
-router.get('/userName', validateSession,(req, res) => {
-    User.findOne({
-        where:{userName: req.body.user.userName}
-    })
-    .then(user => res.status(200).json(user))
-    .catch(err => res.status(500).json(err));
-})
+// //GetUserName
+// router.get('/userName', validateSession,(req, res) => {
+//     User.findOne({
+//         where:{userName: req.body.user.userName}
+//     })
+//     .then(user => res.status(200).json(user))
+//     .catch(err => res.status(500).json(err));
+// })
 
 //GetByID
 // router.get('/:id', validateSession,(req, res)
