@@ -25,7 +25,7 @@ app.use('/response', response);
 app.use('/test', function(req, res){
     res.send('Test Endpoint')
 })
-app.listen(4000, function(){
+app.listen(process.env.PORT, () =>{
     
-    console.log('App is listening on the port 4000')
+    console.log(`App is listening on the port ${process.env.PORT}`)
 })
