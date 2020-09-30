@@ -25,7 +25,7 @@ app.use('/response', response);
 app.use('/test', function(req, res){
     res.send('Test Endpoint')
 })
-app.listen(4000 || 5432, function(){
-    var port= server.address().port;
+app.listen(4000, function(){
+    
     console.log('App is listening on the port 4000')
 })
