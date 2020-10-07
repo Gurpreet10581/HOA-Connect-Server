@@ -16,6 +16,8 @@ router.post('/newPost/:id', validateSession,(req, res) => {
             profileId: profile.id
         })
     })
+    .then((post) => res.status(200).json({message: "New Post has been create",post}))
+    .catch(err => res.status(500).json({error: `Something went wrong error message ${err}`}))
     
     // Post.create({
     //     userId: req.user.id,
@@ -23,8 +25,6 @@ router.post('/newPost/:id', validateSession,(req, res) => {
     //     description: req.body.post.description
 
     // })
-    .then((post) => res.status(200).json({message: "New Post has been create",post}))
-    .catch(err => res.status(500).json({error: err}))
 });
 
 //EditPost

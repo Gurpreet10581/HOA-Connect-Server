@@ -63,8 +63,8 @@ router.get('/all', (req,res) => {
     
 });
 
-router.get('/:id', validateSession,(req,res) => {
-    Profile.findOne({where: {id: req.params.id}, include: "posts"})
+router.get('/', validateSession,(req,res) => {
+    Profile.findOne({where: {userId: req.user.id}, include: "posts"})
     .then(profile => res.status(200).json(profile))
     .catch(err => status(500).json(err));
 })
