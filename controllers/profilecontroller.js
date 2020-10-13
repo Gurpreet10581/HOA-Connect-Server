@@ -18,18 +18,19 @@ router.post('/newProfile', validateSession,(req, res) => {
 
 //EditProfile
 router.put('/:id', validateSession, (req,res) => {
+    let userid = req.user.id;
     if(!req.errors && (req.user.admin)){
-        Profile.update(req.body.profile,{where: {id: req.params.id}})
+        Profile.update(req.body,{where: {userId: req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Profile.update(req.body.profile,{where: {userId: req.user.id, id:req.params.id}})
+        Profile.update(req.body,{where: {userId: req.user.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Profile.update(req.body.profile)
+        Profile.update(req.body)
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
