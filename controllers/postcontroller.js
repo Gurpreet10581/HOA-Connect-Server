@@ -6,8 +6,8 @@ const Profile = require('../db').import('../models/profile');
 
 //PostCreate
 
-router.post('/newPost/:id', validateSession,(req, res) => {
-    Profile.findOne({where:{id: req.params.id}})
+router.post('/newPost', validateSession,(req, res) => {
+    Profile.findOne({where:{userId: req.user.id}})
     .then (profile => {
         Post.create({
             userId: req.user.id,
@@ -30,17 +30,17 @@ router.post('/newPost/:id', validateSession,(req, res) => {
 //EditPost
 router.put('/:id', validateSession, (req,res) => {
     if(!req.errors && (req.user.admin)){
-        Post.update(req.body.post,{where: {id: req.params.id}})
+        Post.update(req.body,{where: {id: req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Post.update(req.body.post,{where: {userId: req.user.id, id:req.params.id}})
+        Post.update(req.body,{where: {userId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Post.update(req.body.post)
+        Post.update(req.body)
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }

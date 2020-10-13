@@ -29,17 +29,17 @@ router.post('/newResponse/:id', validateSession,(req, res) => {
 //EditResponse
 router.put('/:id', validateSession, (req,res) => {
     if(!req.errors && (req.user.admin)){
-        Response.update(req.body.response,{where: {id: req.params.id}})
+        Response.update(req.body,{where: {id: req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Response.update(req.body.response,{where: {userId: req.user.id, id:req.params.id}})
+        Response.update(req.body,{where: {userId: req.user.id, id:req.params.id}})
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
     else if (!req.errors){
-        Response.update(req.body.response)
+        Response.update(req.body)
         .then(data =>res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     }
@@ -67,8 +67,8 @@ router.delete('/:id', validateSession, (req,res) => {
 
 //GetAllResponses
 
-router.get('/', (req,res) => {
-    Response.findAll()
+router.get('/all/:id', (req,res) => {
+    Response.findAll({where:{postId: req.params.id}})
     .then(response => res.status(200).json(response))
     .catch(err => res.status(500).json({error: err}))
     

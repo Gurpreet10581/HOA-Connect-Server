@@ -66,28 +66,28 @@ router.post('/signin', (req, res) =>{
 
 //Admin SignUP
 
-// router.post('/adminsignup', (req,res) => {
-//     User.create({
-//         firstName:req.body.user.firstName,
-//         lastName: req.body.user.lastName,
-//         email: req.body.user.email,
-//         userName: req.body.user.userName,
-//         password: bcrypt.hashSync(req.body.user.password,10),
-//         admin: req.body.user.admin 
-//     })
-//     .then(
-//         function adminSuccess(user){
-//             // console.log(`user: ${user.admin}`)
-//             let token= jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
-//             res.status(200).json({
-//                 user: user,
-//                 message: 'Created A New Admin',
-//                 sessionToken: token,
-//             })
-//         }
-//     )
-//     .catch((err) => res.status(500).json({error: err}));
-// })
+router.post('/adminsignup', (req,res) => {
+    User.create({
+        firstName:req.body.user.firstName,
+        lastName: req.body.user.lastName,
+        email: req.body.user.email,
+        userName: req.body.user.userName,
+        password: bcrypt.hashSync(req.body.user.password,10),
+        admin: req.body.user.admin 
+    })
+    .then(
+        function adminSuccess(user){
+            // console.log(`user: ${user.admin}`)
+            let token= jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+            res.status(200).json({
+                user: user,
+                message: 'Created A New Admin',
+                sessionToken: token,
+            })
+        }
+    )
+    .catch((err) => res.status(500).json({error: err}));
+})
 
 // //GetUserName
 // router.get('/userName', validateSession,(req, res) => {
