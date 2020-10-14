@@ -4,7 +4,7 @@
 
 ### This app allows user to create an account and profile to make post/request such as modification request on their property and receive instant response from their HOA member or fellow residents.
 
-#### Following link demonstrates the all working endpoints in Postman for the server side of this project- https://web.postman.co/collections/11072256-d0bef0e6-2b00-4f96-b53b-e5520a9a47ac?version=latest&workspace=697c89a4-986e-41b0-857f-cd52008e33ef
+#### Following link demonstrates all working endpoints in Postman for the server side of this project- https://web.postman.co/collections/11072256-d0bef0e6-2b00-4f96-b53b-e5520a9a47ac?version=latest&workspace=697c89a4-986e-41b0-857f-cd52008e33ef
 
 
 #### Pg Admin Database for User Table
@@ -21,7 +21,7 @@
 
 
 
-### Some Useful links uses for this project
+### Some useful links for this project
 
 #### Class DataTypes- https://sequelize.readthedocs.io/en/latest/api/datatypes/
 
